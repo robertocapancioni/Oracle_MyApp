@@ -1,4 +1,4 @@
-create or replace package body ced_test.app_pkg
+CREATE OR REPLACE package body robertocapancioni.app_pkg
 as
 /*******************************************************************************
 <pre>
@@ -39,7 +39,7 @@ r.capancioni   2013-10-17   initial creation
 procedure print_crosstable (p_ppl_cod in varchar2)
 is
    cursor my_head is
-        select '<tr><th>-</th><th>'||(listagg(o.tab_cod,'</th><th>') within group (order by o.tab_order))||'</th></tr>' tables  from ced_test.app_tables_vw o where o.ppl_cod=p_ppl_cod and o.env_cod=p_env_cod;
+        select '<tr><th>-</th><th>'||(listagg(o.tab_cod,'</th><th>') within group (order by o.tab_order))||'</th></tr>' tables  from robertocapancioni.app_tables_vw o where o.ppl_cod=p_ppl_cod and o.env_cod=p_env_cod;
    
    cursor my_body is 
     select distinct m_tab_order, rel_one_tab_cod,'<tr><td>'||m_tab_cod||' - '||m_tab_des||'</td><td>'||(listagg(case when m_tab_order >= o_tab_order then apex_item.hidden(1,m_tab_cod)||apex_item.hidden(2,o_tab_cod,null,'')||apex_item.text(3,tre_cod,1) else ' 'end,'</td><td>') within group (order by o_tab_order) over(partition by m_tab_cod))||'</td></tr>' tables  
@@ -53,11 +53,11 @@ is
            m.ins_id,
            m.ppl_cod,
            m.env_cod
-      from ced_test.app_tables_vw m,
-           ced_test.app_tables_vw o 
+      from robertocapancioni.app_tables_vw m,
+           robertocapancioni.app_tables_vw o 
      where m.ins_id=o.ins_id 
     )a0,
-    ced_test.app_relations_vw r
+    robertocapancioni.app_relations_vw r
      where  ppl_cod=p_ppl_cod and env_cod=p_env_cod
        and  a0.m_tab_id = r.m_tab_id(+)
        and  a0.o_tab_id = r.o_tab_id(+)
@@ -88,15 +88,15 @@ l_tre_id   number;
 l_num number;
 begin
 
-        select tab_id into l_o_tab_id from ced_test.app_tables_vw where tab_cod = p_o_tab_cod and ins_cod = p_ins_cod;
-        select tab_id into l_m_tab_id from ced_test.app_tables_vw where tab_cod = p_m_tab_cod and ins_cod = p_ins_cod;
-        select tre_id into l_tre_id from  ced_test.app_trelations where tre_cod = p_tre_cod;
+        select tab_id into l_o_tab_id from robertocapancioni.app_tables_vw where tab_cod = p_o_tab_cod and ins_cod = p_ins_cod;
+        select tab_id into l_m_tab_id from robertocapancioni.app_tables_vw where tab_cod = p_m_tab_cod and ins_cod = p_ins_cod;
+        select tre_id into l_tre_id from  robertocapancioni.app_trelations where tre_cod = p_tre_cod;
 
 
     
-    --insert into ced_test.app_relations (rel_many_tab_id, rel_one_tab_id, rel_one_tab_cod, rel_tre_id) values (l_m_tab_id,l_o_tab_id,p_rel_one_tab_cod,l_tre_id);
+    --insert into robertocapancioni.app_relations (rel_many_tab_id, rel_one_tab_id, rel_one_tab_cod, rel_tre_id) values (l_m_tab_id,l_o_tab_id,p_rel_one_tab_cod,l_tre_id);
     
-    merge into   ced_test.app_relations d
+    merge into   robertocapancioni.app_relations d
      using  (select l_m_tab_id rel_many_tab_id,
                     l_o_tab_id rel_one_tab_id,
                     p_rel_one_tab_cod rel_one_tab_cod,
@@ -128,10 +128,10 @@ is
 l_ins_id number;
 
 begin
-    select ins_id into l_ins_id   from ced_test.app_instances where ins_cod=p_ins_cod;
+    select ins_id into l_ins_id   from robertocapancioni.app_instances where ins_cod=p_ins_cod;
     
 
-    merge into   ced_test.app_tables d
+    merge into   robertocapancioni.app_tables d
      using  (select upper(p_tab_cod) tab_cod,
                     upper(p_tab_des) tab_des,
                     p_tab_ispk tab_ispk,
@@ -174,13 +174,13 @@ l_fk_tab_id number;
 
 begin
         
-        select ins_id into l_ins_id   from ced_test.app_instances where ins_cod=p_ins_cod;
-        select tab_id into l_tab_id   from ced_test.app_tables where tab_cod=p_tab_cod and tab_ins_id = l_ins_id;
+        select ins_id into l_ins_id   from robertocapancioni.app_instances where ins_cod=p_ins_cod;
+        select tab_id into l_tab_id   from robertocapancioni.app_tables where tab_cod=p_tab_cod and tab_ins_id = l_ins_id;
         begin
-            select tab_id into l_fk_tab_id   from ced_test.app_tables where tab_cod=p_tcl_fk_tab_cod and tab_ins_id = l_ins_id;
+            select tab_id into l_fk_tab_id   from robertocapancioni.app_tables where tab_cod=p_tcl_fk_tab_cod and tab_ins_id = l_ins_id;
             exception when no_data_found then null;
         end;
-    merge into   ced_test.app_tabcols d
+    merge into   robertocapancioni.app_tabcols d
      using  (select upper(p_tcl_cod) tcl_cod,
                     upper(p_tcl_des) tcl_des,
                     p_tcl_order tcl_order,
@@ -239,9 +239,9 @@ l_tab_id number;
 
 begin
         
-        select ins_id into l_ins_id   from ced_test.app_instances where ins_cod=p_ins_cod;
-        select tab_id into l_tab_id   from ced_test.app_tables where tab_cod=p_tab_cod and tab_ins_id = l_ins_id;
-        delete from  ced_test.app_tabcols d where tcl_tab_id = l_tab_id and tcl_cod = p_tcl_cod;
+        select ins_id into l_ins_id   from robertocapancioni.app_instances where ins_cod=p_ins_cod;
+        select tab_id into l_tab_id   from robertocapancioni.app_tables where tab_cod=p_tab_cod and tab_ins_id = l_ins_id;
+        delete from  robertocapancioni.app_tabcols d where tcl_tab_id = l_tab_id and tcl_cod = p_tcl_cod;
 end tabcols_delete;
 
 procedure tabtpl_delete (p_tpl_cod in varchar2,p_tab_cod in varchar2,p_ins_cod in varchar2)
@@ -252,10 +252,10 @@ l_tpl_id number;
 
 begin
         
-        select ins_id into l_ins_id   from ced_test.app_instances where ins_cod = p_ins_cod;
-        select tab_id into l_tab_id   from ced_test.app_tables where tab_cod=p_tab_cod and tab_ins_id = l_ins_id;
-        select tpl_id into l_tpl_id from ced_test.app_templates where tpl_cod=p_tpl_cod;
-        delete from  ced_test.app_tabtpl d where ttl_tab_id = l_tab_id and ttl_tpl_id = l_tpl_id;
+        select ins_id into l_ins_id   from robertocapancioni.app_instances where ins_cod = p_ins_cod;
+        select tab_id into l_tab_id   from robertocapancioni.app_tables where tab_cod=p_tab_cod and tab_ins_id = l_ins_id;
+        select tpl_id into l_tpl_id from robertocapancioni.app_templates where tpl_cod=p_tpl_cod;
+        delete from  robertocapancioni.app_tabtpl d where ttl_tab_id = l_tab_id and ttl_tpl_id = l_tpl_id;
 end tabtpl_delete;
 
 procedure tplcols_create (p_tpc_cod in varchar2,p_tpc_des in varchar2,p_tpc_order in number,p_tpl_cod in varchar2,p_tpc_type in varchar2 default 'VARCHAR2(100)',p_tpc_ispk in varchar2 default 'N',p_tpc_isnull in varchar2 default 'Y',p_tpc_default in varchar2 default null)
@@ -265,9 +265,9 @@ l_tpl_id number;
 
 begin
 
-    select tpl_id into l_tpl_id from ced_test.app_templates where tpl_cod=p_tpl_cod;
+    select tpl_id into l_tpl_id from robertocapancioni.app_templates where tpl_cod=p_tpl_cod;
 
-     merge into   ced_test.app_tplcols d
+     merge into   robertocapancioni. app_tplcols d
      using  (select upper(p_tpc_cod) tpc_cod,
                     upper(p_tpc_des) tpc_des,
                     p_tpc_order tpc_order,
@@ -317,10 +317,10 @@ l_env_id number;
 
 begin
 
-    select ppl_id into l_ppl_id from ced_test.app_applications where ppl_cod=p_ppl_cod;
-    select env_id into l_env_id from ced_test.app_environment where env_cod=p_env_cod;
+    select ppl_id into l_ppl_id from robertocapancioni.app_applications where ppl_cod=p_ppl_cod;
+    select env_id into l_env_id from robertocapancioni.app_environment where env_cod=p_env_cod;
 
-     merge into   ced_test.app_instances d
+     merge into   robertocapancioni.app_instances d
      using  (select upper(p_ins_cod) ins_cod, 
                     upper(p_ins_des) ins_des, 
                     p_ins_pref ins_pref, 
@@ -330,15 +330,17 @@ begin
                     p_ins_isapex ins_isapex
                from dual ) s
         on   (    s.ins_cod = d.ins_cod
-              and s.ins_ppl_id = d.ins_ppl_id
-              and s.ins_env_id = d.ins_env_id
+              --and s.ins_ppl_id = d.ins_ppl_id
+              --and s.ins_env_id = d.ins_env_id
              )
 when matched
 then
    update set         d.ins_des=s.ins_des, 
                       d.ins_pref=s.ins_pref, 
                       d.ins_schema=s.ins_schema,
-                      d.ins_isapex=s.ins_isapex
+                      d.ins_isapex=s.ins_isapex,
+                      d.ins_ppl_id=s.ins_ppl_id,
+                      d.ins_env_id=s.ins_env_id
 when not matched
 then
    insert              (ins_cod, 
@@ -366,8 +368,8 @@ procedure sql_create(p_ins_cod in varchar2)
     r1 app_sql_drop_create_block_vw%ROWTYPE;
     l_sql varchar2(32000);
     CURSOR c1 IS
-        --select trim(replace(replace(cod,'',''),'''','''''')) cod from ced_test.app_sql_drop_create_block_vw 
-        select cod from ced_test.app_sql_drop_create_block_vw
+        --select trim(replace(replace(cod,'',''),'''','''''')) cod from robertocapancioni.app_sql_drop_create_block_vw 
+        select cod from robertocapancioni.app_sql_drop_create_block_vw
         where ins_cod=p_ins_cod
           --and tab_id in (1) 
           --and block_order in (3)
@@ -395,8 +397,8 @@ procedure sql_drop(p_ins_cod in varchar2)
     r1 app_sql_drop_create_block_vw%ROWTYPE;
     l_sql varchar2(32000);
     CURSOR c1 IS
-        --select trim(replace(replace(cod,'',''),'''','''''')) cod from ced_test.app_sql_drop_create_block_vw 
-        select cod from ced_test.app_sql_drop_create_block_vw
+        --select trim(replace(replace(cod,'',''),'''','''''')) cod from robertocapancioni.app_sql_drop_create_block_vw 
+        select cod from robertocapancioni.app_sql_drop_create_block_vw
         where ins_cod=p_ins_cod
           --and tab_id in (10) 
           --and block_order = -5
@@ -421,26 +423,32 @@ procedure sql_drop(p_ins_cod in varchar2)
 procedure sql_init_data
 is
 begin
-    delete from ced_test.app_environment;
-    insert into ced_test.app_environment (env_cod, env_des) values ('DEV','DEVELOPMENT');
-    insert into ced_test.app_environment (env_cod, env_des) values ('TST','TEST');
-    insert into ced_test.app_environment (env_cod, env_des) values ('PRD','PRODUCTION');
+    /*
+    delete from robertocapancioni.app_tplcols;
+    delete from robertocapancioni.app_templates;
+    delete from robertocapancioni.app_trelations;
+    delete from robertocapancioni.app_environment;
+    */
     
-    delete from ced_test.app_trelations;
-    insert into ced_test.app_trelations (tre_cod, tre_des) values ('1','1 FK ID MANDATORY');
-    insert into ced_test.app_trelations (tre_cod, tre_des) values ('-1','1 FK ID NOT MANDATORY');
-    insert into ced_test.app_trelations (tre_cod, tre_des) values ('2','2 FK ID MANDATORY');
-    insert into ced_test.app_trelations (tre_cod, tre_des) values ('-2','2 FK ID NOT MANDATORY');
+    insert into robertocapancioni.app_environment (env_cod, env_des) values ('DEV','DEVELOPMENT');
+    insert into robertocapancioni.app_environment (env_cod, env_des) values ('TST','TEST');
+    insert into robertocapancioni.app_environment (env_cod, env_des) values ('PRD','PRODUCTION');
     
-    delete from ced_test.app_templates;
-    insert into ced_test.app_templates (tpl_cod, tpl_des, tpl_order) values ('EMPTY','NO EXTRA COLS', 0);
-    insert into ced_test.app_templates (tpl_cod, tpl_des, tpl_order) values ('PK','PRIMARY KEY', 10);
-    insert into ced_test.app_templates (tpl_cod, tpl_des, tpl_order) values ('COD','COD AND DESCRIPTION', 400);
-    insert into ced_test.app_templates (tpl_cod, tpl_des, tpl_order) values ('HIST','HISTORY', 800);
-    insert into ced_test.app_templates (tpl_cod, tpl_des, tpl_order) values ('META','METADATA', 900);
+    
+    insert into robertocapancioni.app_trelations (tre_cod, tre_des) values ('1','1 FK ID MANDATORY');
+    insert into robertocapancioni.app_trelations (tre_cod, tre_des) values ('-1','1 FK ID NOT MANDATORY');
+    insert into robertocapancioni.app_trelations (tre_cod, tre_des) values ('2','2 FK ID MANDATORY');
+    insert into robertocapancioni.app_trelations (tre_cod, tre_des) values ('-2','2 FK ID NOT MANDATORY');
+    
+
+    insert into robertocapancioni.app_templates (tpl_cod, tpl_des, tpl_order) values ('EMPTY','NO EXTRA COLS', 0);
+    insert into robertocapancioni.app_templates (tpl_cod, tpl_des, tpl_order) values ('PK','PRIMARY KEY', 10);
+    insert into robertocapancioni.app_templates (tpl_cod, tpl_des, tpl_order) values ('COD','COD AND DESCRIPTION', 400);
+    insert into robertocapancioni.app_templates (tpl_cod, tpl_des, tpl_order) values ('HIST','HISTORY', 800);
+    insert into robertocapancioni.app_templates (tpl_cod, tpl_des, tpl_order) values ('META','METADATA', 900);
     
     /*
-    insert into ced_test.app_tplcols
+    insert into robertocapancioni.app_tplcols
     procedure tplcols_create (p_tpc_cod in varchar2,
                               p_tpc_des in varchar2,
                               p_tpc_order in number,
@@ -451,17 +459,17 @@ begin
                               p_tpc_default in varchar2 default null)
 
     */
-    delete from ced_test.app_tplcols;
-    ced_test.app_pkg.tplcols_create('ID'                ,'ID'                ,  0,'PK'  ,'NUMBER'       ,'Y','N','TRIGGER'); 
-    ced_test.app_pkg.tplcols_create('COD'               ,'COD'               , 98,'COD' ,'VARCHAR2(32)' ,'N','N','''-''');
-    ced_test.app_pkg.tplcols_create('DES'               ,'DESCRIPTION'       , 99,'COD' ,'VARCHAR2(100)','N','N','''-''');
-    ced_test.app_pkg.tplcols_create('DATE_START'        ,'DATE_START'        ,980,'HIST','DATE'         ,'N','N','TO_DATE(''01/01/1900'',''dd/mm/yyyy'')');
-    ced_test.app_pkg.tplcols_create('DATE_END'          ,'DATE_END'          ,981,'HIST','DATE'         ,'N','N','TO_DATE(''31/12/2099'',''dd/mm/yyyy'')');
-    ced_test.app_pkg.tplcols_create('CREATED'           ,'CREATED'           ,990,'META','DATE'         ,'N','N','TRIGGER');
-    ced_test.app_pkg.tplcols_create('CREATED_BY'        ,'CREATED_BY'        ,991,'META','VARCHAR2(100)','N','N','TRIGGER');
-    ced_test.app_pkg.tplcols_create('UPDATED'           ,'UPDATED'           ,992,'META','DATE'         ,'N','N','TRIGGER');
-    ced_test.app_pkg.tplcols_create('UPDATED_BY'        ,'UPDATED_BY'        ,993,'META','VARCHAR2(100)','N','N','TRIGGER');
-    ced_test.app_pkg.tplcols_create('ROW_VERSION_NUMBER','ROW_VERSION_NUMBER',994,'META','NUMBER'       ,'N','N','TRIGGER');
+
+    robertocapancioni.app_pkg.tplcols_create('ID'                ,'ID'                ,  0,'PK'  ,'NUMBER'       ,'Y','N','TRIGGER'); 
+    robertocapancioni.app_pkg.tplcols_create('COD'               ,'COD'               , 98,'COD' ,'VARCHAR2(32)' ,'N','N','''-''');
+    robertocapancioni.app_pkg.tplcols_create('DES'               ,'DESCRIPTION'       , 99,'COD' ,'VARCHAR2(100)','N','N','''-''');
+    robertocapancioni.app_pkg.tplcols_create('DATE_START'        ,'DATE_START'        ,980,'HIST','DATE'         ,'N','N','TO_DATE(''01/01/1900'',''dd/mm/yyyy'')');
+    robertocapancioni.app_pkg.tplcols_create('DATE_END'          ,'DATE_END'          ,981,'HIST','DATE'         ,'N','N','TO_DATE(''31/12/2099'',''dd/mm/yyyy'')');
+    robertocapancioni.app_pkg.tplcols_create('CREATED'           ,'CREATED'           ,990,'META','DATE'         ,'N','N','TRIGGER');
+    robertocapancioni.app_pkg.tplcols_create('CREATED_BY'        ,'CREATED_BY'        ,991,'META','VARCHAR2(100)','N','N','TRIGGER');
+    robertocapancioni.app_pkg.tplcols_create('UPDATED'           ,'UPDATED'           ,992,'META','DATE'         ,'N','N','TRIGGER');
+    robertocapancioni.app_pkg.tplcols_create('UPDATED_BY'        ,'UPDATED_BY'        ,993,'META','VARCHAR2(100)','N','N','TRIGGER');
+    robertocapancioni.app_pkg.tplcols_create('ROW_VERSION_NUMBER','ROW_VERSION_NUMBER',994,'META','NUMBER'       ,'N','N','TRIGGER');
     commit;
 end sql_init_data;
 end app_pkg;

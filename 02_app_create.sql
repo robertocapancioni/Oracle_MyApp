@@ -1,5 +1,5 @@
 /* formatted on 20/02/2014 13.41.39 (qp5 v5.126.903.23003) */
-create table ced_test.app_applications (
+create table robertocapancioni.app_applications (
    ppl_id                   number not null,
    ppl_cod                  varchar2 (32) default '-' not null,
    ppl_des                  varchar2 (100) default '-' not null,
@@ -13,7 +13,7 @@ create table ced_test.app_applications (
 
 /
 
-create sequence ced_test.app_applications_seq
+create sequence robertocapancioni.app_applications_seq
    minvalue 1
    maxvalue 999999999999999999999999999
    increment by 1
@@ -24,9 +24,9 @@ create sequence ced_test.app_applications_seq
 
 /
 
-create or replace trigger ced_test.app_applications_trg
+create or replace trigger robertocapancioni.app_applications_trg
    before insert or update
-   on ced_test.app_applications
+   on robertocapancioni.app_applications
    for each row
 declare
    v_username   varchar2 (100);
@@ -44,7 +44,7 @@ begin
    then
       if :new.ppl_id is null or :new.ppl_id < 0
       then
-         select   ced_test.app_applications_seq.nextval
+         select   robertocapancioni.app_applications_seq.nextval
            into   :new.ppl_id
            from   dual;
       end if;
@@ -55,15 +55,15 @@ begin
 end;
 /
 
-create or replace view ced_test.app_applications_lov
+create or replace view robertocapancioni.app_applications_lov
 as
      select   ppl_cod || ' - ' || ppl_des d, ppl_id r
-       from   ced_test.app_applications t
+       from   robertocapancioni.app_applications t
    order by   1;
 
 /
 
-create table ced_test.app_environment (
+create table robertocapancioni.app_environment (
    env_id                   number not null,
    env_cod                  varchar2 (32) default '-' not null,
    env_des                  varchar2 (100) default '-' not null,
@@ -77,7 +77,7 @@ create table ced_test.app_environment (
 
 /
 
-create sequence ced_test.app_environment_seq
+create sequence robertocapancioni.app_environment_seq
    minvalue 1
    maxvalue 999999999999999999999999999
    increment by 1
@@ -88,9 +88,9 @@ create sequence ced_test.app_environment_seq
 
 /
 
-create or replace trigger ced_test.app_environment_trg
+create or replace trigger robertocapancioni.app_environment_trg
    before insert or update
-   on ced_test.app_environment
+   on robertocapancioni.app_environment
    for each row
 declare
    v_username   varchar2 (100);
@@ -108,7 +108,7 @@ begin
    then
       if :new.env_id is null or :new.env_id < 0
       then
-         select   ced_test.app_environment_seq.nextval
+         select   robertocapancioni.app_environment_seq.nextval
            into   :new.env_id
            from   dual;
       end if;
@@ -119,15 +119,15 @@ begin
 end;
 /
 
-create or replace view ced_test.app_environment_lov
+create or replace view robertocapancioni.app_environment_lov
 as
      select   env_cod || ' - ' || env_des d, env_id r
-       from   ced_test.app_environment t
+       from   robertocapancioni.app_environment t
    order by   1;
 
 /
 
-create table ced_test.app_instances (
+create table robertocapancioni.app_instances (
    ins_id                   number not null,
    ins_cod                  varchar2 (32) default '-' not null,
    ins_des                  varchar2 (100) default '-' not null,
@@ -152,16 +152,16 @@ create table ced_test.app_instances (
    ins_row_version_number   number not null,
    constraint app_ins_ppl_fk foreign key
       (ins_ppl_id)
-       references ced_test.app_applications (ppl_id),
+       references robertocapancioni.app_applications (ppl_id),
    constraint app_ins_env_fk foreign key
       (ins_env_id)
-       references ced_test.app_environment (env_id),
+       references robertocapancioni.app_environment (env_id),
    constraint app_instances_pk primary key (ins_id)
 );
 
 /
 
-create sequence ced_test.app_instances_seq
+create sequence robertocapancioni.app_instances_seq
    minvalue 1
    maxvalue 999999999999999999999999999
    increment by 1
@@ -172,9 +172,9 @@ create sequence ced_test.app_instances_seq
 
 /
 
-create or replace trigger ced_test.app_instances_trg
+create or replace trigger robertocapancioni.app_instances_trg
    before insert or update
-   on ced_test.app_instances
+   on robertocapancioni.app_instances
    for each row
 declare
    v_username   varchar2 (100);
@@ -192,7 +192,7 @@ begin
    then
       if :new.ins_id is null or :new.ins_id < 0
       then
-         select   ced_test.app_instances_seq.nextval into :new.ins_id from dual;
+         select   robertocapancioni.app_instances_seq.nextval into :new.ins_id from dual;
       end if;
 
       :new.ins_created_by := v_username;
@@ -201,15 +201,15 @@ begin
 end;
 /
 
-create or replace view ced_test.app_instances_lov
+create or replace view robertocapancioni.app_instances_lov
 as
      select   ins_cod || ' - ' || ins_des d, ins_id r
-       from   ced_test.app_instances t
+       from   robertocapancioni.app_instances t
    order by   1;
 
 /
 
-create table ced_test.app_trelations (
+create table robertocapancioni.app_trelations (
    tre_id                   number not null,
    tre_cod                  varchar2 (32) default '-' not null,
    tre_des                  varchar2 (100) default '-' not null,
@@ -223,7 +223,7 @@ create table ced_test.app_trelations (
 
 /
 
-create sequence ced_test.app_trelations_seq
+create sequence robertocapancioni.app_trelations_seq
    minvalue 1
    maxvalue 999999999999999999999999999
    increment by 1
@@ -234,9 +234,9 @@ create sequence ced_test.app_trelations_seq
 
 /
 
-create or replace trigger ced_test.app_trelations_trg
+create or replace trigger robertocapancioni.app_trelations_trg
    before insert or update
-   on ced_test.app_trelations
+   on robertocapancioni.app_trelations
    for each row
 declare
    v_username   varchar2 (100);
@@ -254,7 +254,7 @@ begin
    then
       if :new.tre_id is null or :new.tre_id < 0
       then
-         select   ced_test.app_trelations_seq.nextval
+         select   robertocapancioni.app_trelations_seq.nextval
            into   :new.tre_id
            from   dual;
       end if;
@@ -265,15 +265,15 @@ begin
 end;
 /
 
-create or replace view ced_test.app_trelations_lov
+create or replace view robertocapancioni.app_trelations_lov
 as
      select   tre_cod || ' - ' || tre_des d, tre_id r
-       from   ced_test.app_trelations t
+       from   robertocapancioni.app_trelations t
    order by   1;
 
 /
 
-create table ced_test.app_tables (
+create table robertocapancioni.app_tables (
    tab_id                   number not null,
    tab_cod                  varchar2 (32) default '-' not null,
    tab_des                  varchar2 (100) default '-' not null,
@@ -288,13 +288,13 @@ create table ced_test.app_tables (
    tab_row_version_number   number not null,
    constraint app_tab_ins_fk foreign key
       (tab_ins_id)
-       references ced_test.app_instances (ins_id),
+       references robertocapancioni.app_instances (ins_id),
    constraint app_tables_pk primary key (tab_id)
 );
 
 /
 
-create sequence ced_test.app_tables_seq
+create sequence robertocapancioni.app_tables_seq
    minvalue 1
    maxvalue 999999999999999999999999999
    increment by 1
@@ -305,9 +305,9 @@ create sequence ced_test.app_tables_seq
 
 /
 
-create or replace trigger ced_test.app_tables_trg
+create or replace trigger robertocapancioni.app_tables_trg
    before insert or update
-   on ced_test.app_tables
+   on robertocapancioni.app_tables
    for each row
 declare
    v_username   varchar2 (100);
@@ -325,7 +325,7 @@ begin
    then
       if :new.tab_id is null or :new.tab_id < 0
       then
-         select   ced_test.app_tables_seq.nextval into :new.tab_id from dual;
+         select   robertocapancioni.app_tables_seq.nextval into :new.tab_id from dual;
       end if;
 
       :new.tab_created_by := v_username;
@@ -334,15 +334,15 @@ begin
 end;
 /
 
-create or replace view ced_test.app_tables_lov
+create or replace view robertocapancioni.app_tables_lov
 as
      select   tab_cod || ' - ' || tab_des d, tab_id r
-       from   ced_test.app_tables t
+       from   robertocapancioni.app_tables t
    order by   1;
 
 /
 
-create table ced_test.app_templates (
+create table robertocapancioni.app_templates (
    tpl_id                   number not null,
    tpl_cod                  varchar2 (32) default '-' not null,
    tpl_des                  varchar2 (100) default '-' not null,
@@ -357,7 +357,7 @@ create table ced_test.app_templates (
 
 /
 
-create sequence ced_test.app_templates_seq
+create sequence robertocapancioni.app_templates_seq
    minvalue 1
    maxvalue 999999999999999999999999999
    increment by 1
@@ -368,9 +368,9 @@ create sequence ced_test.app_templates_seq
 
 /
 
-create or replace trigger ced_test.app_templates_trg
+create or replace trigger robertocapancioni.app_templates_trg
    before insert or update
-   on ced_test.app_templates
+   on robertocapancioni.app_templates
    for each row
 declare
    v_username   varchar2 (100);
@@ -388,7 +388,7 @@ begin
    then
       if :new.tpl_id is null or :new.tpl_id < 0
       then
-         select   ced_test.app_templates_seq.nextval into :new.tpl_id from dual;
+         select   robertocapancioni.app_templates_seq.nextval into :new.tpl_id from dual;
       end if;
 
       :new.tpl_created_by := v_username;
@@ -397,15 +397,15 @@ begin
 end;
 /
 
-create or replace view ced_test.app_templates_lov
+create or replace view robertocapancioni.app_templates_lov
 as
      select   tpl_cod || ' - ' || tpl_des d, tpl_id r
-       from   ced_test.app_templates t
+       from   robertocapancioni.app_templates t
    order by   1;
 
 /
 
-create table ced_test.app_tplcols (
+create table robertocapancioni.app_tplcols (
    tpc_id                   number not null,
    tpc_cod                  varchar2 (32) default '-' not null,
    tpc_des                  varchar2 (100) default '-' not null,
@@ -424,16 +424,16 @@ create table ced_test.app_tplcols (
    tpc_row_version_number   number not null,
    constraint app_tpc_fk_tab_id foreign key
       (tpc_fk_tab_id)
-       references ced_test.app_tables (tab_id),
+       references robertocapancioni.app_tables (tab_id),
    constraint app_tpc_tpl_fk foreign key
       (tpc_tpl_id)
-       references ced_test.app_templates (tpl_id),
+       references robertocapancioni.app_templates (tpl_id),
    constraint app_tplcols_pk primary key (tpc_id)
 );
 
 /
 
-create sequence ced_test.app_tplcols_seq
+create sequence robertocapancioni.app_tplcols_seq
    minvalue 1
    maxvalue 999999999999999999999999999
    increment by 1
@@ -444,9 +444,9 @@ create sequence ced_test.app_tplcols_seq
 
 /
 
-create or replace trigger ced_test.app_tplcols_trg
+create or replace trigger robertocapancioni.app_tplcols_trg
    before insert or update
-   on ced_test.app_tplcols
+   on robertocapancioni.app_tplcols
    for each row
 declare
    v_username   varchar2 (100);
@@ -464,7 +464,7 @@ begin
    then
       if :new.tpc_id is null or :new.tpc_id < 0
       then
-         select   ced_test.app_tplcols_seq.nextval into :new.tpc_id from dual;
+         select   robertocapancioni.app_tplcols_seq.nextval into :new.tpc_id from dual;
       end if;
 
       :new.tpc_created_by := v_username;
@@ -473,7 +473,7 @@ begin
 end;
 /
 
-create table ced_test.app_tabcols (
+create table robertocapancioni.app_tabcols (
    tcl_id                   number not null,
    tcl_cod                  varchar2 (32) default '-' not null,
    tcl_des                  varchar2 (100) default '-' not null,
@@ -492,16 +492,16 @@ create table ced_test.app_tabcols (
    tcl_row_version_number   number not null,
    constraint app_tcl_tab_fk foreign key
       (tcl_tab_id)
-       references ced_test.app_tables (tab_id),
+       references robertocapancioni.app_tables (tab_id),
    constraint app_tcl_fk_tab_id foreign key
       (tcl_fk_tab_id)
-       references ced_test.app_tables (tab_id),
+       references robertocapancioni.app_tables (tab_id),
    constraint app_tabcols_pk primary key (tcl_id)
 );
 
 /
 
-create sequence ced_test.app_tabcols_seq
+create sequence robertocapancioni.app_tabcols_seq
    minvalue 1
    maxvalue 999999999999999999999999999
    increment by 1
@@ -512,9 +512,9 @@ create sequence ced_test.app_tabcols_seq
 
 /
 
-create or replace trigger ced_test.app_tabcols_trg
+create or replace trigger robertocapancioni.app_tabcols_trg
    before insert or update
-   on ced_test.app_tabcols
+   on robertocapancioni.app_tabcols
    for each row
 declare
    v_username   varchar2 (100);
@@ -532,7 +532,7 @@ begin
    then
       if :new.tcl_id is null or :new.tcl_id < 0
       then
-         select   ced_test.app_tabcols_seq.nextval into :new.tcl_id from dual;
+         select   robertocapancioni.app_tabcols_seq.nextval into :new.tcl_id from dual;
       end if;
 
       :new.tcl_created_by := v_username;
@@ -541,7 +541,7 @@ begin
 end;
 /
 
-create table ced_test.app_tabtpl (
+create table robertocapancioni.app_tabtpl (
    ttl_id                   number not null,
    ttl_cod                  varchar2 (32) default '-' not null,
    ttl_des                  varchar2 (100) default '-' not null,
@@ -555,16 +555,16 @@ create table ced_test.app_tabtpl (
    ttl_row_version_number   number not null,
    constraint app_ttl_tab_fk foreign key
       (ttl_tab_id)
-       references ced_test.app_tables (tab_id),
+       references robertocapancioni.app_tables (tab_id),
    constraint app_ttl_tpl_fk foreign key
       (ttl_tpl_id)
-       references ced_test.app_templates (tpl_id),
+       references robertocapancioni.app_templates (tpl_id),
    constraint app_tabtpl_pk primary key (ttl_id)
 );
 
 /
 
-create sequence ced_test.app_tabtpl_seq
+create sequence robertocapancioni.app_tabtpl_seq
    minvalue 1
    maxvalue 999999999999999999999999999
    increment by 1
@@ -575,9 +575,9 @@ create sequence ced_test.app_tabtpl_seq
 
 /
 
-create or replace trigger ced_test.app_tabtpl_trg
+create or replace trigger robertocapancioni.app_tabtpl_trg
    before insert or update
-   on ced_test.app_tabtpl
+   on robertocapancioni.app_tabtpl
    for each row
 declare
    v_username   varchar2 (100);
@@ -595,7 +595,7 @@ begin
    then
       if :new.ttl_id is null or :new.ttl_id < 0
       then
-         select   ced_test.app_tabtpl_seq.nextval into :new.ttl_id from dual;
+         select   robertocapancioni.app_tabtpl_seq.nextval into :new.ttl_id from dual;
       end if;
 
       :new.ttl_created_by := v_username;
@@ -604,7 +604,7 @@ begin
 end;
 /
 
-create table ced_test.app_relations (
+create table robertocapancioni.app_relations (
    rel_id                   number not null,
    rel_one_tab_cod          varchar2 (32),
    rel_tre_id               number not null,
@@ -617,19 +617,19 @@ create table ced_test.app_relations (
    rel_row_version_number   number not null,
    constraint app_rel_tre_fk foreign key
       (rel_tre_id)
-       references ced_test.app_trelations (tre_id),
+       references robertocapancioni.app_trelations (tre_id),
    constraint app_rel_many_tab_id foreign key
       (rel_many_tab_id)
-       references ced_test.app_tables (tab_id),
+       references robertocapancioni.app_tables (tab_id),
    constraint app_rel_one_tab_id foreign key
       (rel_one_tab_id)
-       references ced_test.app_tables (tab_id),
+       references robertocapancioni.app_tables (tab_id),
    constraint app_relations_pk primary key (rel_id)
 );
 
 /
 
-create sequence ced_test.app_relations_seq
+create sequence robertocapancioni.app_relations_seq
    minvalue 1
    maxvalue 999999999999999999999999999
    increment by 1
@@ -640,9 +640,9 @@ create sequence ced_test.app_relations_seq
 
 /
 
-create or replace trigger ced_test.app_relations_trg
+create or replace trigger robertocapancioni.app_relations_trg
    before insert or update
-   on ced_test.app_relations
+   on robertocapancioni.app_relations
    for each row
 declare
    v_username   varchar2 (100);
@@ -660,7 +660,7 @@ begin
    then
       if :new.rel_id is null or :new.rel_id < 0
       then
-         select   ced_test.app_relations_seq.nextval into :new.rel_id from dual;
+         select   robertocapancioni.app_relations_seq.nextval into :new.rel_id from dual;
       end if;
 
       :new.rel_created_by := v_username;

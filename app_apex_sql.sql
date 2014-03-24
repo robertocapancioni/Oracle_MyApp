@@ -7,7 +7,7 @@ insert into apex_040200.wwv_flow_lists_of_values$ (flow_id,security_group_id,lov
                 upper(tab_des||'_LOV') lov_name, 
                 upper('select d,r from '||pref_tab||tab_des||'_LOV ') lov_query 
            from apex_040200.wwv_flows f,
-                ced_test.app_tables_vw v  
+                robertocapancioni.app_tables_vw v  
           where tab_islov='Y' 
             and id=112
        );
@@ -24,8 +24,8 @@ insert into apex_040200.wwv_flow_lists_of_values$ (flow_id,security_group_id,lov
 update  apex_040200.wwv_flow_step_items set
 item_default_type = 'STATIC_TEXT_WITH_SUBSTITUTIONS',
 display_as = 'NATIVE_SELECT_LIST',
-named_lov =   ( select upper(o_tab_des||'_LOV')                                named_lov from ced_test.app_relations_vw r where m_ins_cod = 'MEZ-TST' and m_tab_cod='AUT' and name = 'P'||flow_step_id||'_'||upper(m_pref_col||o_real_pref_col||m_ins_idchar)),
-lov =         ( select upper('select * from '||m_pref_tab||upper(o_tab_des)||'_LOV') lov from ced_test.app_relations_vw r where m_ins_cod = 'MEZ-TST' and m_tab_cod='AUT' and name = 'P'||flow_step_id||'_'||upper(m_pref_col||o_real_pref_col||m_ins_idchar)),
+named_lov =   ( select upper(o_tab_des||'_LOV')                                named_lov from robertocapancioni.app_relations_vw r where m_ins_cod = 'MEZ-TST' and m_tab_cod='AUT' and name = 'P'||flow_step_id||'_'||upper(m_pref_col||o_real_pref_col||m_ins_idchar)),
+lov =         ( select upper('select * from '||m_pref_tab||upper(o_tab_des)||'_LOV') lov from robertocapancioni.app_relations_vw r where m_ins_cod = 'MEZ-TST' and m_tab_cod='AUT' and name = 'P'||flow_step_id||'_'||upper(m_pref_col||o_real_pref_col||m_ins_idchar)),
 lov_display_extra = 'NO',
 lov_display_null = 'YES',
 protection_level = 'N',
@@ -37,7 +37,7 @@ attribute_02 = 'N'
  flow_id = 112
  --and flow_step_id = 24
  and name in ( select 'P'||flow_step_id||'_'||upper(m_pref_col||o_pref_col||m_ins_idchar)         
-                 from ced_test.app_relations_vw r 
+                 from robertocapancioni.app_relations_vw r 
                 where m_ins_cod = 'MEZ-TST' 
                   and m_tab_cod in ('ASS','AUT')
              )       
@@ -55,7 +55,7 @@ attribute_02 = 'N'
                        and t.flow_id = f.id
                        and t.flow_id = h.flow_id
                        and t.theme_id = h.theme_id
-                       and f.owner ='ced_test'
+                       and f.owner ='robertocapancioni'
                        and f.name='mez gestione automezzi'
                        and t.template_name like 'required (horizontal - right aligned)%'
                        --and t.template_name like 'optional (horizontal - right aligned)'
@@ -76,7 +76,7 @@ attribute_02 = 'N'
   --  select upper(m_pref_col||o_pref_col||m_ins_idchar)name ,
   --      upper(o_tab_des||'_lov') named_lov, 
   --      upper('select * from '||m_pref_tab||upper(o_tab_des)||'_lov') lov
-   from ced_test.app_relations_vw r 
+   from robertocapancioni.app_relations_vw r 
   where m_ins_cod = 'MEZ-TST' 
     and m_tab_cod='ASS'
    --
@@ -94,7 +94,7 @@ update apex_040200.wwv_flow_step_items i
                        and t.flow_id = f.id
                        and t.flow_id = h.flow_id
                        and t.theme_id = h.theme_id
-                       and f.owner ='CED_TEST'
+                       and f.owner ='robertocapancioni'
                        and f.name='MEZ GESTIONE AUTOMEZZI'
                        and t.template_name like 'Optional (Label Above)'
                        --and t.template_name like 'required (horizontal - right aligned)'
@@ -110,7 +110,7 @@ update apex_040200.wwv_flow_step_items i
        and t.flow_id = f.id
        and t.flow_id = h.flow_id
        and t.theme_id = h.theme_id
-       and f.owner ='CED_TEST'
+       and f.owner ='robertocapancioni'
        and f.name='MEZ GESTIONE AUTOMEZZI'
        and t.template_name like 'Optional (Horizontal - Right Aligned)%'
        --and t.template_name like 'optional (horizontal - right aligned)'
